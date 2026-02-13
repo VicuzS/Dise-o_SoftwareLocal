@@ -10,8 +10,11 @@ Hemos completado satisfactoriamente los requisitos del prototipo mínimo recomen
 * **Versionamiento:** Entrega oficial marcada con el tag `v1-avance`.
 
 ## Estructura del Proyecto
-* `app/schemas/`: Definición de modelos de datos usando Pydantic para asegurar la integridad de la información.
-* `main.py`: Implementación del servidor y lógica de enrutamiento de la API.
+* `app/controllers/`: Lógica de control para gestionar las solicitudes de la API.
+* `app/models/`: Acceso y manipulación de datos.
+* `app/views/`: Formateo de las respuestas de la API.
+* `app/schemas/`: Definición de modelos de datos usando Pydantic.
+* `main.py`: Punto de entrada de la aplicación y enrutamiento principal.
 * `smoke_test.py`: Script de verificación técnica para la infraestructura de datos.
 * `.gitignore`: Configuración para mantener el repositorio limpio de archivos temporales.
 
