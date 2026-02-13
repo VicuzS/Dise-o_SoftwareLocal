@@ -1,0 +1,11 @@
+# Ignorar carpetas temporales de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignorar configuraciones de VS Code
+.vscode/
+
+# Ignorar bases de datos locales o archivos de entorno
+.env
+*.db
