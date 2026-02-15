@@ -2,10 +2,44 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+*.egg-info/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+
+# Vite
+*.local
+.vite/
 
 # Ignorar configuraciones de VS Code
 .vscode/
+.idea/
 
 # Ignorar bases de datos locales o archivos de entorno
 .env
+.env.local
+.env.*.local
 *.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+.coverage
+htmlcov/

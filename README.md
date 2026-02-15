@@ -1,37 +1,148 @@
 # Módulo G8: Reportes y KPIs
 
-Este repositorio contiene el **Skeleton Ejecutable** para el sistema de gestión de Reportes y KPIs. En esta etapa inicial (**PE1**), el objetivo es validar la infraestructura base y el contrato de servicios de la API.
-
-## Estado de la Entrega (PE1)
-Hemos completado satisfactoriamente los requisitos del prototipo mínimo recomendado:
-* **Skeleton Ejecutable:** Servidor FastAPI operativo que expone endpoints iniciales con datos de prueba (stubs).
-* **Estructura por Capas:** Organización modular del código siguiendo la separación de controladores y esquemas de datos.
-* **Prueba de Humo (Smoke Test):** Validación de la conectividad con el servidor de base de datos PostgreSQL.
-* **Versionamiento:** Entrega oficial marcada con el tag `v1-avance`.
+Sistema de gestión de Reportes y KPIs con backend en FastAPI y frontend en React + Vite.
 
 ## Estructura del Proyecto
-* `app/controllers/`: Lógica de control para gestionar las solicitudes de la API.
-* `app/models/`: Acceso y manipulación de datos.
-* `app/views/`: Formateo de las respuestas de la API.
-* `app/schemas/`: Definición de modelos de datos usando Pydantic.
-* `main.py`: Punto de entrada de la aplicación y enrutamiento principal.
-* `smoke_test.py`: Script de verificación técnica para la infraestructura de datos.
-* `.gitignore`: Configuración para mantener el repositorio limpio de archivos temporales.
+
+```
+├── backend/
+│   ├── app/
+│   │   ├── controllers/      # Endpoints (rutas)
+│   │   │   └── kpi_controller.py
+│   │   ├── services/         # Lógica de negocio
+│   │   │   ├── kpi_service.py
+│   │   │   └── export_service.py
+│   │   ├── models/           # SQLAlchemy models (ORM)
+│   │   │   └── kpi_model.py
+│   │   ├── repositories/     # Acceso a datos
+│   │   ├── schemas/          # Pydantic (validación)
+│   │   │   └── kpi_schema.py
+│   │   ├── views/            # Formateo de respuestas
+│   │   │   └── kpi_view.py
+│   │   └── utils/
+│   │       ├── calculators.py
+│   │       └── exporters.py
+│   ├── tests/
+│   ├── main.py
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── Dashboard/
+│   │   │   ├── Reports/
+│   │   │   ├── Charts/
+│   │   │   └── Export/
+│   │   ├── services/         # Llamadas a la API
+│   │   ├── hooks/            # Custom hooks
+│   │   └── utils/            # Utilidades (fechas, exportación)
+│   ├── package.json
+│   └── .env.example
+│
+├── tests/
+│   └── smoke_test.py
+├── .gitignore
+└── README.md
+```
 
 ## Tecnologías Utilizadas
-* **Lenguaje:** Python
+
+### Backend
+* **Lenguaje:** Python 3.x
 * **Framework:** FastAPI
 * **Base de Datos:** PostgreSQL
-* **Documentación:** Swagger / OpenAPI
+* **ORM:** SQLAlchemy
+* **Validación:** Pydantic
+* **Exportación:** Pandas, OpenPyXL
+* **Documentación:** Swagger / OpenAPI (automática)
+
+### Frontend
+* **Framework:** React 18
+* **Build Tool:** Vite
+* **HTTP Client:** Axios
+* **Gráficos:** Recharts
+* **Tablas:** TanStack React Table
+* **Exportación:** XLSX
+* **Fechas:** date-fns
 
 ## Guía de Ejecución
 
-1. **Instalar dependencias necesarias:**
+### Requisitos Previos
+- Python 3.8+
+- Node.js 18+
+- PostgreSQL (para producción)
+
+### Backend
+
+1. **Crear y activar entorno virtual:**
    ```bash
-   pip install fastapi uvicorn psycopg2-binary pydantic
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   # o en Windows: venv\Scripts\activate
+   ```
 
-2. **Iniciar el servidor:**
-   python -m uvicorn main:app --reload --port 8001
+2. **Instalar dependencias:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3. **Explorar la API:**
-   Visita http://127.0.0.1:8001/docs para interactuar con los endpoints documentados.
+3. **Configurar variables de entorno:**
+   ```bash
+   cp .env.example .env
+   # Editar .env con las credenciales de PostgreSQL
+   ```
+
+4. **Iniciar el servidor:**
+   ```bash
+   uvicorn main:app --reload --port 8000
+   ```
+
+5. **Explorar la API:**
+   - Documentación: http://localhost:8000/docs
+   - Endpoint raíz: http://localhost:8000/
+
+### Frontend
+
+1. **Instalar dependencias:**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. **Configurar variables de entorno:**
+   ```bash
+   cp .env.example .env
+   # Editar .env si es necesario
+   ```
+
+3. **Iniciar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+4. **Acceder a la aplicación:**
+   - http://localhost:5173/
+
+## Endpoints de la API
+
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/` | Estado del servidor |
+| GET | `/api/v1/kpi/summary` | Resumen de KPIs |
+| GET | `/api/v1/kpi/charts/sla-stats` | Estadísticas SLA para gráficos |
+
+## Variables de Entorno
+
+### Backend (`.env`)
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/reportes_kpis
+DEBUG=true
+APP_ENV=development
+```
+
+### Frontend (`.env`)
+```env
+VITE_API_URL=http://localhost:8000/api/v1
+```

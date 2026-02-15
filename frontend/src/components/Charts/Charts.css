@@ -1,0 +1,22 @@
+.chart-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.chart-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.chart-loading,
+.chart-error {
+  padding: 20px;
+  text-align: center;
+}
+
+.chart-error {
+  color: #d32f2f;
+}
