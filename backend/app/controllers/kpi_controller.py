@@ -1,24 +1,22 @@
-from fastapi import APIRouter
-from typing import List
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+from typing import List, Optional
 
-from app.models import kpi_model
-from app.views import kpi_view
+from app.database.connection import get_db
+from app.services.kpi_service import KPIService
 from app.schemas.kpi_schema import KPISummary, SLAChartData
 
 router = APIRouter()
 
 @router.get("/summary", response_model=KPISummary)
-async def get_summary():
-    """
-    Get KPI summary.
-    """
-    data = kpi_model.get_kpi_summary_data()
-    return kpi_view.format_kpi_summary(data)
+async def get_summary(
+    area_id: Optional[int] = None,
+    db: Session = Depends(get_db)  # Inyección de dependencia — no instanciar dentro
+):
+    service = KPIService(db)
+    return service.get_summary(area_id)
 
 @router.get("/charts/sla-stats", response_model=List[SLAChartData])
-async def get_sla_stats():
-    """
-    Get SLA chart statistics.
-    """
-    data = kpi_model.get_sla_chart_data()
-    return kpi_view.format_sla_chart_data(data)
+async def get_sla_stats(db: Session = Depends(get_db)):
+    service = KPIService(db)
+    return service.get_sla_chart_data()

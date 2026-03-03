@@ -4,6 +4,15 @@
 import { useKPISummary } from '../../hooks';
 import './Dashboard.css';
 
+function KPICard({ title, value, color }) {
+  return (
+    <div className="kpi-card" style={{ borderLeft: `4px solid ${color}` }}>
+      <h3>{title}</h3>
+      <span className="kpi-value">{value}</span>
+    </div>
+  );
+}
+
 function Dashboard() {
   const { data, loading, error } = useKPISummary();
 
@@ -13,12 +22,10 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <h1>Dashboard de KPIs</h1>
-      <div className="dashboard-content">
-        {data ? (
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-        ) : (
-          <p>No hay datos disponibles</p>
-        )}
+      <div className="kpi-cards">
+        <KPICard title="Total Solicitudes" value={data?.total ?? 0} color="#2196f3" />
+        <KPICard title="Pendientes" value={data?.pendientes ?? 0} color="#ff9800" />
+        <KPICard title="En SLA" value={data?.en_sla ?? 0} color="#4caf50" />
       </div>
     </div>
   );
