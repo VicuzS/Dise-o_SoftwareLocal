@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.controllers import kpi_controller
+from app.database.connection import engine, Base
 
 app = FastAPI(title="Modulo G8: Reportes y KPIs")
+
+Base.metadata.create_all(bind=engine)
 
 # CORS configuration for frontend development
 origins = [

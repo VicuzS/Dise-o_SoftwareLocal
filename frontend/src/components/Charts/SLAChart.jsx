@@ -21,7 +21,7 @@ function SLAChart() {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="value" fill="#8884d8" name="Valor" />
+          <Bar dataKey="pct" fill="#8884d8" name="Cumplimiento %" />
         </BarChart>
       </ResponsiveContainer>
     </div>
