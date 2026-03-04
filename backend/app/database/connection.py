@@ -7,20 +7,22 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Prioriza la URL de PostgreSQL del .env, si no existe, usa SQLite para pruebas locales
+# Si no hay .env con DATABASE_URL, usa SQLite local automáticamente
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test.db")
 
-# Solo aplicamos pool_size si no es SQLite (para evitar errores)
 if DATABASE_URL.startswith("postgresql"):
     engine = create_engine(
         DATABASE_URL,
         pool_size=5,
         max_overflow=10,
-        isolation_level="READ COMMITTED" # Requisito del doc de arquitectura 
+        isolation_level="READ COMMITTED"
     )
 else:
-    # Configuración simplificada para tu prueba local actual
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+    # SQLite para desarrollo local sin PostgreSQL
+    engine = create_engine(
+        DATABASE_URL,
+        connect_args={"check_same_thread": False}
+    )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
